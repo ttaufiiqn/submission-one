@@ -19,6 +19,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
         <ImageView
             android:id="@+id/mediaCover"
             android:layout_width="0dp"
@@ -122,11 +123,21 @@
             android:padding="16dp" />
 
         <TextView
+            android:id="@+id/remainingQuota"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/remaining_quota"
+            app:layout_constraintTop_toBottomOf="@id/registrants"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="16dp" />
+
+        <TextView
             android:id="@+id/beginTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/begin_time"
-            app:layout_constraintTop_toBottomOf="@id/registrants"
+            app:layout_constraintTop_toBottomOf="@id/remainingQuota"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="16dp" />
@@ -161,7 +172,6 @@
             app:layout_constraintTop_toBottomOf="@id/openLinkButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

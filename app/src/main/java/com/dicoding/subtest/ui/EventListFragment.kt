@@ -6,21 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.subtest.data.response.EventResponse
-import com.dicoding.subtest.data.response.ListEventsItem
-import com.dicoding.subtest.data.retrofit.ApiConfig
 import com.dicoding.subtest.databinding.FragmentEventListBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class EventListFragment : Fragment() {
 
     private var _binding: FragmentEventListBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: EventAdapter
-    private var allEvents: List<ListEventsItem>? = null
+    private lateinit var viewModel: EventViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +28,24 @@ class EventListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = EventAdapter(emptyList())
+        binding.recyclerView.adapter = adapter
 
         binding.progressBar.visibility = View.VISIBLE
 
-        fetchEvents()
+        viewModel.activeEvents.observe(viewLifecycleOwner, { events ->
+            binding.progressBar.visibility = View.GONE
+            if (events != null) {
+                adapter.updateData(events)
+            } else {
+                Toast.makeText(requireContext(), "No active events found", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.fetchActiveEvents()
 
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -51,42 +59,15 @@ class EventListFragment : Fragment() {
         })
     }
 
-    private fun fetchEvents() {
-        ApiConfig.getApiService().getActiveEvents().enqueue(object : Callback<EventResponse> {
-            override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
-                binding.progressBar.visibility = View.GONE
-
-                if (response.isSuccessful) {
-                    val events = response.body()?.listEvents
-                    if (events != null) {
-                        allEvents = events
-                        adapter = EventAdapter(events)
-                        binding.recyclerView.adapter = adapter
-                    } else {
-                        Toast.makeText(requireContext(), "Failed to load events", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "Failed to load events", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                binding.progressBar.visibility = View.GONE
-                Toast.makeText(requireContext(), "Failed to load events", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
     private fun searchEvents(query: String) {
-        val filteredEvents = allEvents?.filter { event ->
+        val filteredEvents = viewModel.activeEvents.value?.filter { event ->
             event.name.contains(query, ignoreCase = true) || event.summary.contains(query, ignoreCase = true)
         }
 
         if (filteredEvents.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "No events found", Toast.LENGTH_SHORT).show()
         } else {
-            adapter = EventAdapter(filteredEvents)
-            binding.recyclerView.adapter = adapter
+            adapter.updateData(filteredEvents)
         }
     }
 

@@ -20,8 +20,8 @@
     <string name="owner">Owner: %1$s</string>
     <string name="mulai">Begin Time: %1$s</string>
     <string name="berakhir">End Time: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="completed_events">Completed Events</string>
     <string name="upcoming_events">Upcoming Events</string>
     <string name="home">Home</string>
+    <string name="remaining_quota">sisa kuota: %d</string>
 </resources>

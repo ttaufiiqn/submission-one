@@ -61,6 +61,7 @@ class DetailEventActivity : AppCompatActivity() {
         }
     }
 
+
     private fun bindEvent(event: EventDetail) {
         Glide.with(this)
             .load(event.mediaCover)
@@ -84,6 +85,8 @@ class DetailEventActivity : AppCompatActivity() {
         binding.beginTime.text = getString(R.string.mulai, event.beginTime)
         binding.endTime.text = getString(R.string.berakhir, event.endTime)
 
+        val remainingQuota = event.quota - event.registrants
+        binding.remainingQuota.text = getString(R.string.remaining_quota, remainingQuota)
         eventLink = event.link
     }
 }
