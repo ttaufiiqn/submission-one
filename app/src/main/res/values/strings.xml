@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Event App</string>
+    <string name="event_image">Event Image</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_finished">Finished</string>
+    <string name="event_description">Event Description</string>
+    <string name="event_name">Event Name</string>
+    <string name="quota">Quota: %d</string>
+    <string name="registrants">Registrant: %d</string>
+    <string name="owner_name">Owner Name</string>
+    <string name="open_link">Registrasi</string>
+    <string name="event_summary">Event Summary</string>
+    <string name="event_link">Event Link</string>
+    <string name="end_time">End Time</string>
+    <string name="category">Category</string>
+    <string name="begin_time">Begin Time</string>
+    <string name="city_name">City Name</string>
+    <string name="kategori">Kategori: %1$s</string>
+    <string name="kota">Kota: %1$s</string>
+    <string name="owner">Owner: %1$s</string>
+    <string name="mulai">Begin Time: %1$s</string>
+    <string name="berakhir">End Time: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="completed_events">Completed Events</string>
+    <string name="upcoming_events">Upcoming Events</string>
+    <string name="home">Home</string>
+</resources>
