@@ -63,6 +63,9 @@ class DetailEventActivity : AppCompatActivity() {
                 Toast.makeText(this, "Link is not available", Toast.LENGTH_SHORT).show()
             }
         }
+        binding.fabFavorite.setOnClickListener {
+            viewModel.toggleFavorite()
+        }
     }
 
     private fun bindEvent(event: EventDetail) {
@@ -93,6 +96,12 @@ class DetailEventActivity : AppCompatActivity() {
             val remainingQuotaValue = event.quota - event.registrants
             remainingQuota.text = getString(R.string.remaining_quota, remainingQuotaValue)
             eventLink = event.link
+
+            if (viewModel.isFavorite.value == true) {
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
+            } else {
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorite_border)
+            }
         }
     }
 }
