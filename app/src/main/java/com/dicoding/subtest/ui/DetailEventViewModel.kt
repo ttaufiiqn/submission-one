@@ -1,4 +1,5 @@
 package com.dicoding.subtest.ui
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,21 +26,25 @@ class DetailEventViewModel : ViewModel() {
         }
 
         _loading.value = true
-        ApiConfig.getApiService().getDetailEvent(id).enqueue(object : Callback<DetailEventResponse> {
-            override fun onResponse(call: Call<DetailEventResponse>, response: Response<DetailEventResponse>) {
-                _loading.value = false
-                if (response.isSuccessful) {
-                    _event.value = response.body()
-                    _error.value = null
-                } else {
+        ApiConfig.getApiService().getDetailEvent(id)
+            .enqueue(object : Callback<DetailEventResponse> {
+                override fun onResponse(
+                    call: Call<DetailEventResponse>,
+                    response: Response<DetailEventResponse>
+                ) {
+                    _loading.value = false
+                    if (response.isSuccessful) {
+                        _event.value = response.body()
+                        _error.value = null
+                    } else {
+                        _error.value = "Failed to load event details"
+                    }
+                }
+
+                override fun onFailure(call: Call<DetailEventResponse>, t: Throwable) {
+                    _loading.value = false
                     _error.value = "Failed to load event details"
                 }
-            }
-
-            override fun onFailure(call: Call<DetailEventResponse>, t: Throwable) {
-                _loading.value = false
-                _error.value = "Failed to load event details"
-            }
-        })
+            })
     }
 }

@@ -41,13 +41,15 @@ class InactiveEventsFragment : Fragment() {
             if (events != null) {
                 adapter.updateData(events)
             } else {
-                Toast.makeText(requireContext(), "No inactive events found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No inactive events found", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
 
         viewModel.fetchInactiveEvents()
 
-        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { searchEvents(it) }
                 return false
@@ -61,7 +63,10 @@ class InactiveEventsFragment : Fragment() {
 
     private fun searchEvents(query: String) {
         val filteredEvents = viewModel.inactiveEvents.value?.filter { event ->
-            event.name.contains(query, ignoreCase = true) || event.summary.contains(query, ignoreCase = true)
+            event.name.contains(query, ignoreCase = true) || event.summary.contains(
+                query,
+                ignoreCase = true
+            )
         }
 
         if (filteredEvents.isNullOrEmpty()) {

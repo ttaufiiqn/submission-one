@@ -21,4 +21,5 @@
         android:name="com.dicoding.subtest.ui.InactiveEventsFragment"
         android:label="Inactive Events"
         tools:layout="@layout/fragment_inactive_events" />
+
 </navigation>

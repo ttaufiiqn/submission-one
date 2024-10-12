@@ -12,4 +12,5 @@
         android:id="@+id/navigation_finished"
         android:icon="@drawable/ic_finished"
         android:title="@string/title_finished" />
+
 </menu>

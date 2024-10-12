@@ -22,6 +22,10 @@ class DetailEventActivity : AppCompatActivity() {
     private lateinit var eventLink: String
     private val viewModel: DetailEventViewModel by viewModels()
 
+    companion object {
+        private const val DELAY_MILLIS = 1500L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailEventBinding.inflate(layoutInflater)
@@ -31,7 +35,7 @@ class DetailEventActivity : AppCompatActivity() {
         if (eventId != null) {
             Handler(Looper.getMainLooper()).postDelayed({
                 viewModel.fetchEventDetails(eventId)
-            }, 3000)
+            }, DELAY_MILLIS)
         }
 
         viewModel.event.observe(this) { eventResponse ->
@@ -61,32 +65,33 @@ class DetailEventActivity : AppCompatActivity() {
         }
     }
 
-
     private fun bindEvent(event: EventDetail) {
-        Glide.with(this)
-            .load(event.mediaCover)
-            .into(binding.mediaCover)
+        with(binding) {
+            Glide.with(this@DetailEventActivity)
+                .load(event.mediaCover)
+                .into(mediaCover)
 
-        binding.name.text = event.name
-        binding.summary.text = event.summary
+            name.text = event.name
+            summary.text = event.summary
 
-        binding.description.text = HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        binding.description.movementMethod = LinkMovementMethod.getInstance()
+            description.text = HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            description.movementMethod = LinkMovementMethod.getInstance()
 
-        Glide.with(this)
-            .load(event.imageLogo)
-            .into(binding.logoImage)
+            Glide.with(this@DetailEventActivity)
+                .load(event.imageLogo)
+                .into(logoImage)
 
-        binding.category.text = getString(R.string.kategori, event.category)
-        binding.ownerName.text = getString(R.string.owner, event.ownerName)
-        binding.cityName.text = getString(R.string.kota, event.cityName)
-        binding.quota.text = getString(R.string.quota, event.quota)
-        binding.registrants.text = getString(R.string.registrants, event.registrants)
-        binding.beginTime.text = getString(R.string.mulai, event.beginTime)
-        binding.endTime.text = getString(R.string.berakhir, event.endTime)
+            category.text = getString(R.string.kategori, event.category)
+            ownerName.text = getString(R.string.owner, event.ownerName)
+            cityName.text = getString(R.string.kota, event.cityName)
+            quota.text = getString(R.string.quota, event.quota)
+            registrants.text = getString(R.string.registrants, event.registrants)
+            beginTime.text = getString(R.string.mulai, event.beginTime)
+            endTime.text = getString(R.string.berakhir, event.endTime)
 
-        val remainingQuota = event.quota - event.registrants
-        binding.remainingQuota.text = getString(R.string.remaining_quota, remainingQuota)
-        eventLink = event.link
+            val remainingQuotaValue = event.quota - event.registrants
+            remainingQuota.text = getString(R.string.remaining_quota, remainingQuotaValue)
+            eventLink = event.link
+        }
     }
 }

@@ -3,12 +3,14 @@ package com.dicoding.subtest.ui
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.data.response.ListEventsItem
 import com.dicoding.subtest.databinding.ItemEventBinding
 
-class EventAdapter(private var events: List<ListEventsItem>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private var events: List<ListEventsItem>) :
+    RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(event: ListEventsItem) {
@@ -41,7 +43,28 @@ class EventAdapter(private var events: List<ListEventsItem>) : RecyclerView.Adap
     override fun getItemCount(): Int = events.size
 
     fun updateData(newEvents: List<ListEventsItem>) {
+        val diffCallback = EventDiffCallback(events, newEvents)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
         events = newEvents
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
+    }
+}
+
+class EventDiffCallback(
+    private val oldList: List<ListEventsItem>,
+    private val newList: List<ListEventsItem>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldList.size
+
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

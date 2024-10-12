@@ -24,4 +24,6 @@
     <string name="upcoming_events">Upcoming Events</string>
     <string name="home">Home</string>
     <string name="remaining_quota">sisa kuota: %d</string>
+    <string name="no_active_events">No active events found</string>
+    <string name="no_events_found">No events found</string>
 </resources>

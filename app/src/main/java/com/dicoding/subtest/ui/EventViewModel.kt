@@ -18,29 +18,42 @@ class EventViewModel : ViewModel() {
     private val _inactiveEvents = MutableLiveData<List<ListEventsItem>>()
     val inactiveEvents: LiveData<List<ListEventsItem>> get() = _inactiveEvents
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
+
     fun fetchActiveEvents() {
+        if (_activeEvents.value != null && _activeEvents.value!!.isNotEmpty()) return
         ApiConfig.getApiService().getActiveEvents().enqueue(object : Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 if (response.isSuccessful) {
                     _activeEvents.value = response.body()?.listEvents
+                } else {
+                    _error.value = "Failed to load active events: ${response.message()}"
                 }
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
+                _error.value = "Error: ${t.message}"
             }
         })
     }
 
     fun fetchInactiveEvents() {
-        ApiConfig.getApiService().getInactiveEvents().enqueue(object : Callback<EventResponse> {
-            override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
-                if (response.isSuccessful) {
-                    _inactiveEvents.value = response.body()?.listEvents
+            ApiConfig.getApiService().getInactiveEvents().enqueue(object : Callback<EventResponse> {
+                override fun onResponse(
+                    call: Call<EventResponse>,
+                    response: Response<EventResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        _inactiveEvents.value = response.body()?.listEvents
+                    } else {
+                        _error.value = "Failed to load inactive events: ${response.message()}"
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-            }
-        })
+                override fun onFailure(call: Call<EventResponse>, t: Throwable) {
+                    _error.value = "Error: ${t.message}"
+                }
+            })
     }
 }

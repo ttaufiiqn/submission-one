@@ -5,6 +5,7 @@ import com.dicoding.subtest.data.response.EventResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("events?active=1")
@@ -15,4 +16,5 @@ interface ApiService {
 
     @GET("events/{id}")
     fun getDetailEvent(@Path("id") id: String): Call<DetailEventResponse>
+
 }
