@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dicoding.subtest.data.response.ListEventsItem
+import com.dicoding.subtest.data.remote.response.ListEventsItem
 import com.dicoding.subtest.databinding.ItemEventBinding
 
 class EventAdapter(private var events: List<ListEventsItem>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
-    class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(binding.root) {
+    class EventViewHolder(private val binding: ItemEventBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(event: ListEventsItem) {
             binding.textViewEventName.text = event.name
             binding.textViewSummary.text = event.summary

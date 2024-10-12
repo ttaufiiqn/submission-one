@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SubTest"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.FavoriteAddUpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AppCompatActivity"
+            android:exported="false" />
         <activity android:name=".ui.DetailEventActivity" />
         <activity
             android:name=".ui.MainActivity"

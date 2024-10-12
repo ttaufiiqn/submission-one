@@ -14,12 +14,11 @@
         android:id="@+id/navigation_upcoming"
         android:name="com.dicoding.subtest.ui.EventListFragment"
         android:label="Event List"
-        tools:layout="@layout/fragment_event_list"/>
+        tools:layout="@layout/fragment_event_list" />
 
     <fragment
         android:id="@+id/navigation_finished"
         android:name="com.dicoding.subtest.ui.InactiveEventsFragment"
         android:label="Inactive Events"
         tools:layout="@layout/fragment_inactive_events" />
-
 </navigation>

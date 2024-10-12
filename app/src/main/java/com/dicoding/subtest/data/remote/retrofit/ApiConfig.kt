@@ -1,4 +1,4 @@
-package com.dicoding.subtest.data.retrofit
+package com.dicoding.subtest.data.remote.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

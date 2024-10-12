@@ -1,7 +1,7 @@
-package com.dicoding.subtest.data.retrofit
+package com.dicoding.subtest.data.remote.retrofit
 
-import com.dicoding.subtest.data.response.DetailEventResponse
-import com.dicoding.subtest.data.response.EventResponse
+import com.dicoding.subtest.data.remote.response.DetailEventResponse
+import com.dicoding.subtest.data.remote.response.EventResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

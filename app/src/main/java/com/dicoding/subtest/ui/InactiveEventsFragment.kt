@@ -28,7 +28,7 @@ class InactiveEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
+        viewModel = ViewModelProvider(this)[EventViewModel::class.java]
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
         adapter = EventAdapter(emptyList())
@@ -36,7 +36,7 @@ class InactiveEventsFragment : Fragment() {
 
         binding.progressBar.visibility = View.VISIBLE
 
-        viewModel.inactiveEvents.observe(viewLifecycleOwner, { events ->
+        viewModel.inactiveEvents.observe(viewLifecycleOwner) { events ->
             binding.progressBar.visibility = View.GONE
             if (events != null) {
                 adapter.updateData(events)
@@ -44,7 +44,7 @@ class InactiveEventsFragment : Fragment() {
                 Toast.makeText(requireContext(), "No inactive events found", Toast.LENGTH_SHORT)
                     .show()
             }
-        })
+        }
 
         viewModel.fetchInactiveEvents()
 

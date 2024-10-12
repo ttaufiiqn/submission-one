@@ -1,4 +1,4 @@
-package com.dicoding.subtest.data.response
+package com.dicoding.subtest.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 

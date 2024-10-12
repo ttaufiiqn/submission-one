@@ -3,8 +3,8 @@ package com.dicoding.subtest.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.subtest.data.response.DetailEventResponse
-import com.dicoding.subtest.data.retrofit.ApiConfig
+import com.dicoding.subtest.data.remote.response.DetailEventResponse
+import com.dicoding.subtest.data.remote.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

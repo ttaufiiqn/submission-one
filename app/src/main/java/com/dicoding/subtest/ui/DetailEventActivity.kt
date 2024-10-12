@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.R
-import com.dicoding.subtest.data.response.EventDetail
+import com.dicoding.subtest.data.remote.response.EventDetail
 import com.dicoding.subtest.databinding.ActivityDetailEventBinding
 
 class DetailEventActivity : AppCompatActivity() {
@@ -74,7 +74,8 @@ class DetailEventActivity : AppCompatActivity() {
             name.text = event.name
             summary.text = event.summary
 
-            description.text = HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            description.text =
+                HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
             description.movementMethod = LinkMovementMethod.getInstance()
 
             Glide.with(this@DetailEventActivity)
