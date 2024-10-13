@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui
+package com.dicoding.subtest.ui.View
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.subtest.R
 import com.dicoding.subtest.databinding.FragmentEventListBinding
+import com.dicoding.subtest.Adapter.EventAdapter
+import com.dicoding.subtest.ui.ViewModel.EventViewModel
 
 class EventListFragment : Fragment() {
 

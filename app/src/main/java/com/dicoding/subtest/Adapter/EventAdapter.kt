@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui
+package com.dicoding.subtest.Adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.data.remote.response.ListEventsItem
 import com.dicoding.subtest.databinding.ItemEventBinding
+import com.dicoding.subtest.ui.View.DetailEventActivity
 
 class EventAdapter(private var events: List<ListEventsItem>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {

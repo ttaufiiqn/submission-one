@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui
+package com.dicoding.subtest.ui.View
 
 import android.content.Intent
 import android.net.Uri
@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.dicoding.subtest.R
 import com.dicoding.subtest.data.remote.response.EventDetail
 import com.dicoding.subtest.databinding.ActivityDetailEventBinding
+import com.dicoding.subtest.ui.ViewModel.DetailEventViewModel
 
 class DetailEventActivity : AppCompatActivity() {
 

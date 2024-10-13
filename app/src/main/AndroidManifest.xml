@@ -15,11 +15,11 @@
         android:theme="@style/Theme.SubTest"
         tools:targetApi="31">
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.View.SettingsActivity"
             android:exported="false" />
-        <activity android:name=".ui.DetailEventActivity" />
+        <activity android:name=".ui.View.DetailEventActivity" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.View.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui
+package com.dicoding.subtest.ui.View
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.subtest.databinding.FragmentHomeBinding
+import com.dicoding.subtest.Adapter.EventAdapter
+import com.dicoding.subtest.ui.ViewModel.HomeViewModel
 
 class HomeFragment : Fragment() {
 

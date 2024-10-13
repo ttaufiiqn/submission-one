@@ -1,9 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
 }
 
 android {
@@ -67,9 +65,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.fragment.ktx)
-
-    implementation(libs.room.runtime)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.activity.ktx)
@@ -80,6 +75,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android.v173)
-    implementation("androidx.room:room-runtime:2.5.0")
-    ksp("androidx.room:room-compiler:2.5.0")
+    implementation (libs.androidx.datastore.preferences.v111)
 }

@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui
+package com.dicoding.subtest.ui.ViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
