@@ -1,24 +1,27 @@
 package com.dicoding.subtest.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.subtest.data.local.entity.FavoriteEvent
+import com.dicoding.subtest.data.repository.FavoriteRepository
 import com.dicoding.subtest.databinding.FragmentFavoriteBinding
 
 class FavoriteFragment : Fragment() {
+
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: FavoriteEventAdapter
-    private lateinit var viewModel: FavoriteViewModel
+
+    private lateinit var favoriteViewModel: FavoriteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -26,16 +29,14 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = FavoriteEventAdapter(emptyList())
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = this@FavoriteFragment.adapter
-        }
+        val repository = FavoriteRepository(requireActivity().application)
+        val viewModelFactory = FavoriteViewModelFactory(repository)
 
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[FavoriteViewModel::class.java]
+        favoriteViewModel = ViewModelProvider(this, viewModelFactory).get(FavoriteViewModel::class.java)
 
-        viewModel.favoriteEvents.observe(viewLifecycleOwner) { events ->
-            adapter.updateData(events)
+        favoriteViewModel.favoriteEvents.observe(viewLifecycleOwner) { favoriteEvents ->
+            val adapter = FavoriteAdapter(favoriteEvents)
+            binding.recyclerView.adapter = adapter
         }
     }
 

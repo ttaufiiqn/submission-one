@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.dicoding.subtest.data.local.entity.FavoriteEvent
 import com.dicoding.subtest.data.local.room.FavoriteDao
-import com.dicoding.subtest.data.local.room.FavoriteRoomDatabase
+import com.dicoding.subtest.data.local.room.FavoriteDatabase
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -13,8 +13,8 @@ class FavoriteRepository(application: Application) {
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
     init {
-        val db = FavoriteRoomDatabase.getDatabase(application)
-        mFavoriteDao = db.FavoriteDao()
+        val db = FavoriteDatabase.getDatabase(application)
+        mFavoriteDao = db.favoriteDao()
     }
 
     fun getAllFavorite(): LiveData<List<FavoriteEvent>> = mFavoriteDao.getAllFavorite()

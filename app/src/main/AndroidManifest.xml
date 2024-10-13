@@ -15,10 +15,7 @@
         android:theme="@style/Theme.SubTest"
         tools:targetApi="31">
         <activity
-            android:name=".ui.FavoriteAddUpdateActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.AppCompatActivity"
+            android:name=".ui.SettingsActivity"
             android:exported="false" />
         <activity android:name=".ui.DetailEventActivity" />
         <activity
