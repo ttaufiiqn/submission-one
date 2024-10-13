@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.R
-import com.dicoding.subtest.data.local.entity.FavoriteEvent
 import com.dicoding.subtest.data.remote.response.EventDetail
 import com.dicoding.subtest.databinding.ActivityDetailEventBinding
 
@@ -22,13 +21,10 @@ class DetailEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailEventBinding
     private lateinit var eventLink: String
     private val viewModel: DetailEventViewModel by viewModels()
-    private val favoriteViewModel: FavoriteViewModel by viewModels()
 
     companion object {
         private const val DELAY_MILLIS = 1500L
     }
-
-    private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +35,6 @@ class DetailEventActivity : AppCompatActivity() {
         if (eventId != null) {
             Handler(Looper.getMainLooper()).postDelayed({
                 viewModel.fetchEventDetails(eventId)
-                favoriteViewModel.getFavoriteById(eventId).observe(this) { favorite ->
-                    isFavorite = favorite != null
-                    updateFavoriteIcon()
-                }
             }, DELAY_MILLIS)
         }
 
@@ -71,31 +63,6 @@ class DetailEventActivity : AppCompatActivity() {
                 Toast.makeText(this, "Link is not available", Toast.LENGTH_SHORT).show()
             }
         }
-
-        binding.fabFavorite.setOnClickListener {
-            viewModel.event.value?.event?.let { event ->
-                val favoriteEvent = FavoriteEvent(
-                    id = event.id.toString(),
-                    name = event.name,
-                    mediaCover = event.mediaCover
-                )
-                if (isFavorite) {
-                    favoriteViewModel.delete(favoriteEvent)
-                } else {
-                    favoriteViewModel.insert(favoriteEvent)
-                }
-                isFavorite = !isFavorite
-                updateFavoriteIcon()
-            }
-        }
-    }
-
-    private fun updateFavoriteIcon() {
-        if (isFavorite) {
-            binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
-        } else {
-            binding.fabFavorite.setImageResource(R.drawable.ic_favorite_border)
-        }
     }
 
     private fun bindEvent(event: EventDetail) {
@@ -123,7 +90,7 @@ class DetailEventActivity : AppCompatActivity() {
             beginTime.text = getString(R.string.mulai, event.beginTime)
             endTime.text = getString(R.string.berakhir, event.endTime)
 
-            val remainingQuotaValue = event .quota - event.registrants
+            val remainingQuotaValue = event.quota - event.registrants
             remainingQuota.text = getString(R.string.remaining_quota, remainingQuotaValue)
             eventLink = event.link
         }

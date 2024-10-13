@@ -22,16 +22,4 @@
         android:label="Inactive Events"
         tools:layout="@layout/fragment_inactive_events" />
 
-    <fragment
-        android:id="@+id/favorite_fragment"
-        android:name="com.dicoding.subtest.ui.FavoriteFragment"
-        android:label="List Favorite"
-        tools:layout="@layout/fragment_favorite" />
-
-    <fragment
-        android:id="@+id/settings_fragment"
-        android:name="com.dicoding.subtest.ui.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
-
 </navigation>

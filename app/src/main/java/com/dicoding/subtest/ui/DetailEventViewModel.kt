@@ -1,12 +1,10 @@
 package com.dicoding.subtest.ui
 
-import androidx.compose.ui.window.application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dicoding.subtest.data.remote.response.DetailEventResponse
 import com.dicoding.subtest.data.remote.retrofit.ApiConfig
-import com.dicoding.subtest.data.repository.FavoriteRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
