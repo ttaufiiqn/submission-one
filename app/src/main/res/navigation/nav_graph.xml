@@ -21,10 +21,5 @@
         android:name="com.dicoding.subtest.ui.View.InactiveEventsFragment"
         android:label="Inactive Events"
         tools:layout="@layout/fragment_inactive_events" />
-    <activity
-        android:id="@+id/settingsActivity"
-        android:name="com.dicoding.subtest.ui.View.SettingsActivity"
-        android:label="Settings"
-        tools:layout="@layout/activity_settings" />
 
 </navigation>
