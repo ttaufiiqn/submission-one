@@ -6,22 +6,41 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.R
+import com.dicoding.subtest.data.local.entity.FavoriteEvent
+import com.dicoding.subtest.data.local.repository.FavoriteEventRepository
+import com.dicoding.subtest.data.local.room.FavoriteEventDatabase
 import com.dicoding.subtest.data.remote.response.EventDetail
 import com.dicoding.subtest.databinding.ActivityDetailEventBinding
 import com.dicoding.subtest.ui.ViewModel.DetailEventViewModel
+import com.dicoding.subtest.ui.ViewModel.FavoriteViewModel
+import com.dicoding.subtest.ui.ViewModel.FavoriteViewModelFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class DetailEventActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventBinding
     private lateinit var eventLink: String
     private val viewModel: DetailEventViewModel by viewModels()
+
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
+        val database = FavoriteEventDatabase.getInstance(application)
+        val favoriteEventDao = database.favoriteEventDao()
+        val favoriteRepository = FavoriteEventRepository(favoriteEventDao)
+        FavoriteViewModelFactory(favoriteRepository)
+    }
+
+    private var isFavorite = false  // Flag to track favorite status
+    private lateinit var currentEvent: EventDetail
 
     companion object {
         private const val DELAY_MILLIS = 1500L
@@ -42,7 +61,16 @@ class DetailEventActivity : AppCompatActivity() {
         viewModel.event.observe(this) { eventResponse ->
             val event = eventResponse?.event
             if (event != null) {
+                currentEvent = event // Store the current event
                 bindEvent(event)
+
+                // Check if the event is already a favorite
+                favoriteViewModel.isFavorite(currentEvent.id.toString()).observe(this) { favoriteEvent ->
+                    isFavorite = favoriteEvent != null // Set isFavorite to true if favoriteEvent is not null
+                    binding.fabFavorite.setImageResource(
+                        if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                    )
+                }
             }
         }
 
@@ -62,6 +90,36 @@ class DetailEventActivity : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Link is not available", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.fabFavorite.setOnClickListener {
+            val fab = it as FloatingActionButton
+            Log.d("FAB Click", "Current isFavorite state: $isFavorite")
+            if (!isFavorite) {
+                // Add to favorites
+                val favoriteEvent = FavoriteEvent(
+                    id = currentEvent.id.toString(),
+                    name = currentEvent.name,
+                    mediaCover = currentEvent.mediaCover
+                )
+                favoriteViewModel.insert(favoriteEvent)  // Ensure this is a suspend function
+                isFavorite = true
+                fab.setImageResource(R.drawable.ic_favorite) // Change icon to favorite
+                Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
+                // Optionally navigate to favorites here if needed
+                // navigateToFavorites()
+            } else {
+                // Remove from favorites
+                val favoriteEventToDelete = FavoriteEvent(
+                    id = currentEvent.id.toString(),
+                    name = currentEvent.name,
+                    mediaCover = currentEvent.mediaCover
+                )
+                favoriteViewModel.delete(favoriteEventToDelete) // Pass the FavoriteEvent object
+                isFavorite = false
+                fab.setImageResource(R.drawable.ic_favorite_border) // Change icon back
+                Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -94,6 +152,13 @@ class DetailEventActivity : AppCompatActivity() {
             val remainingQuotaValue = event.quota - event.registrants
             remainingQuota.text = getString(R.string.remaining_quota, remainingQuotaValue)
             eventLink = event.link
+        }
+    }
+
+    private fun navigateToFavorites() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        if (navController.currentDestination?.id != R.id.favoriteEventsFragment) {
+            navController.navigate(R.id.favoriteEventsFragment)
         }
     }
 }

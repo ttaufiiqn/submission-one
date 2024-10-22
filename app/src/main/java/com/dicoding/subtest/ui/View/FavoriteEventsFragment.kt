@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.subtest.R
 import com.dicoding.subtest.ui.adapter.FavoriteEventAdapter
-import com.dicoding.subtest.ui.viewmodel.FavoriteViewModel
+import com.dicoding.subtest.ui.ViewModel.FavoriteViewModel
+import com.dicoding.subtest.ui.ViewModel.FavoriteViewModelFactory
+import com.dicoding.subtest.data.local.repository.FavoriteEventRepository
+import com.dicoding.subtest.data.local.room.FavoriteEventDatabase
 
 class FavoriteEventsFragment : Fragment() {
 
     private lateinit var favoriteEventAdapter: FavoriteEventAdapter
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: FavoriteViewModel by viewModels()
+    private lateinit var favoriteViewModel: FavoriteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +34,13 @@ class FavoriteEventsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = favoriteEventAdapter
 
-        viewModel.getAllFavoriteEvents().observe(viewLifecycleOwner, Observer { favoriteEvents ->
+        // Set up the ViewModel with the repository
+        val database = FavoriteEventDatabase.getInstance(requireContext())
+        val repository = FavoriteEventRepository(database.favoriteEventDao())
+        favoriteViewModel = FavoriteViewModelFactory(repository).create(FavoriteViewModel::class.java)
+
+        // Observe favorite events
+        favoriteViewModel.getAllFavoriteEvents().observe(viewLifecycleOwner, Observer { favoriteEvents ->
             favoriteEventAdapter.submitList(favoriteEvents)
         })
 

@@ -81,4 +81,8 @@
         implementation(libs.androidx.lifecycle.viewmodel.ktx)
         implementation(libs.androidx.lifecycle.livedata.ktx)
         ksp(libs.room.compiler)
+
+        implementation (libs.androidx.navigation.fragment.ktx.v283) // Use the latest version
+        implementation (libs.androidx.navigation.ui.ktx.v283) // Use the latest version
+
     }

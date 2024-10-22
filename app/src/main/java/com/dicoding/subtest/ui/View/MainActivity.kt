@@ -7,8 +7,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.dicoding.subtest.R
 import com.dicoding.subtest.data.local.repository.FavoriteEventRepository
 import com.dicoding.subtest.data.local.room.FavoriteEventDatabase
-import com.dicoding.subtest.ui.viewmodel.FavoriteViewModel
-import com.dicoding.subtest.ui.viewmodel.FavoriteViewModelFactory
+import com.dicoding.subtest.ui.ViewModel.FavoriteViewModel
+import com.dicoding.subtest.ui.ViewModel.FavoriteViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
