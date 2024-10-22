@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui.ViewModel
+package com.dicoding.subtest.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 
 class FavoriteViewModel(private val repository: FavoriteEventRepository) : ViewModel() {
     fun getAllFavoriteEvents() = repository.getAllFavoriteEvents()
-    fun getFavoriteEventById(id: String) = repository.getFavoriteEventById(id)
     fun insert(favoriteEvent: FavoriteEvent) = viewModelScope.launch {
         repository.insert(favoriteEvent)
     }
@@ -17,8 +16,12 @@ class FavoriteViewModel(private val repository: FavoriteEventRepository) : ViewM
         repository.delete(favoriteEvent)
     }
 }
+
 class FavoriteViewModelFactory(private val repository: FavoriteEventRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return FavoriteViewModel(repository) as T
+        if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
+            return FavoriteViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
