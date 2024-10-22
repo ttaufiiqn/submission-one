@@ -13,7 +13,6 @@ interface FavoriteEventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(favoriteEvent: FavoriteEvent)
 
-    // Change the delete method to accept FavoriteEvent
     @Delete
     suspend fun delete(favoriteEvent: FavoriteEvent)
 

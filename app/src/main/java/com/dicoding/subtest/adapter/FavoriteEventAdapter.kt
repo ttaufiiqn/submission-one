@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui.adapter
+package com.dicoding.subtest.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.subtest.data.local.entity.FavoriteEvent
 import com.dicoding.subtest.databinding.ItemFavoriteEventBinding
 
-class FavoriteEventAdapter : ListAdapter<FavoriteEvent, FavoriteEventAdapter.FavoriteEventViewHolder>(FavoriteEventDiffCallback()) {
+class FavoriteEventAdapter :
+    ListAdapter<FavoriteEvent, FavoriteEventAdapter.FavoriteEventViewHolder>(
+        FavoriteEventDiffCallback()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteEventViewHolder {
-        val binding = ItemFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteEventViewHolder(binding)
     }
 
@@ -20,11 +24,10 @@ class FavoriteEventAdapter : ListAdapter<FavoriteEvent, FavoriteEventAdapter.Fav
         holder.bind(favoriteEvent)
     }
 
-    inner class FavoriteEventViewHolder(private val binding: ItemFavoriteEventBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FavoriteEventViewHolder(private val binding: ItemFavoriteEventBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(favoriteEvent: FavoriteEvent) {
             binding.eventName.text = favoriteEvent.name
-            // Load media cover using Glide or similar library
-            // Glide.with(binding.root).load(favoriteEvent.mediaCover).into(binding.mediaCover)
         }
     }
 

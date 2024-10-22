@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui.View
+package com.dicoding.subtest.ui.view
 
 import android.content.Intent
 import android.net.Uri
@@ -12,8 +12,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.R
 import com.dicoding.subtest.data.local.entity.FavoriteEvent
@@ -21,9 +19,9 @@ import com.dicoding.subtest.data.local.repository.FavoriteEventRepository
 import com.dicoding.subtest.data.local.room.FavoriteEventDatabase
 import com.dicoding.subtest.data.remote.response.EventDetail
 import com.dicoding.subtest.databinding.ActivityDetailEventBinding
-import com.dicoding.subtest.ui.ViewModel.DetailEventViewModel
-import com.dicoding.subtest.ui.ViewModel.FavoriteViewModel
-import com.dicoding.subtest.ui.ViewModel.FavoriteViewModelFactory
+import com.dicoding.subtest.ui.viewModel.DetailEventViewModel
+import com.dicoding.subtest.ui.viewModel.FavoriteViewModel
+import com.dicoding.subtest.ui.viewModel.FavoriteViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class DetailEventActivity : AppCompatActivity() {
@@ -39,7 +37,7 @@ class DetailEventActivity : AppCompatActivity() {
         FavoriteViewModelFactory(favoriteRepository)
     }
 
-    private var isFavorite = false  // Flag to track favorite status
+    private var isFavorite = false
     private lateinit var currentEvent: EventDetail
 
     companion object {
@@ -61,16 +59,18 @@ class DetailEventActivity : AppCompatActivity() {
         viewModel.event.observe(this) { eventResponse ->
             val event = eventResponse?.event
             if (event != null) {
-                currentEvent = event // Store the current event
+                currentEvent = event
                 bindEvent(event)
 
                 // Check if the event is already a favorite
-                favoriteViewModel.isFavorite(currentEvent.id.toString()).observe(this) { favoriteEvent ->
-                    isFavorite = favoriteEvent != null // Set isFavorite to true if favoriteEvent is not null
-                    binding.fabFavorite.setImageResource(
-                        if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
-                    )
-                }
+                favoriteViewModel.isFavorite(currentEvent.id.toString())
+                    .observe(this) { favoriteEvent ->
+                        isFavorite =
+                            favoriteEvent != null // Set isFavorite to true if favoriteEvent is not null
+                        binding.fabFavorite.setImageResource(
+                            if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                        )
+                    }
             }
         }
 
@@ -97,7 +97,6 @@ class DetailEventActivity : AppCompatActivity() {
             val fab = it as FloatingActionButton
             Log.d("FAB Click", "Current isFavorite state: $isFavorite")
             if (!isFavorite) {
-                // Add to favorites
                 val favoriteEvent = FavoriteEvent(
                     id = currentEvent.id.toString(),
                     name = currentEvent.name,
@@ -110,7 +109,6 @@ class DetailEventActivity : AppCompatActivity() {
                 // Optionally navigate to favorites here if needed
                 // navigateToFavorites()
             } else {
-                // Remove from favorites
                 val favoriteEventToDelete = FavoriteEvent(
                     id = currentEvent.id.toString(),
                     name = currentEvent.name,
@@ -152,13 +150,6 @@ class DetailEventActivity : AppCompatActivity() {
             val remainingQuotaValue = event.quota - event.registrants
             remainingQuota.text = getString(R.string.remaining_quota, remainingQuotaValue)
             eventLink = event.link
-        }
-    }
-
-    private fun navigateToFavorites() {
-        val navController = findNavController(R.id.nav_host_fragment)
-        if (navController.currentDestination?.id != R.id.favoriteEventsFragment) {
-            navController.navigate(R.id.favoriteEventsFragment)
         }
     }
 }

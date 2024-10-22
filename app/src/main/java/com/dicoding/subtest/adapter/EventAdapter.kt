@@ -1,4 +1,4 @@
-package com.dicoding.subtest.Adapter
+package com.dicoding.subtest.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.data.remote.response.ListEventsItem
 import com.dicoding.subtest.databinding.ItemEventBinding
-import com.dicoding.subtest.ui.View.DetailEventActivity
+import com.dicoding.subtest.ui.view.DetailEventActivity
 
 class EventAdapter(private var events: List<ListEventsItem>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
-    class EventViewHolder(private val binding: ItemEventBinding) : RecyclerView.ViewHolder(binding.root) {
+    class EventViewHolder(private val binding: ItemEventBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(event: ListEventsItem) {
             binding.textViewEventName.text = event.name
             binding.textViewSummary.text = event.summary

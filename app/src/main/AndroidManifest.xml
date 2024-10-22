@@ -14,9 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SubTest"
         tools:targetApi="31">
-        <activity android:name=".ui.View.DetailEventActivity" />
+        <activity android:name=".ui.view.DetailEventActivity" />
         <activity
-            android:name=".ui.View.MainActivity"
+            android:name=".ui.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

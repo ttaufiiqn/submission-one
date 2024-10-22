@@ -1,20 +1,18 @@
-package com.dicoding.subtest.ui.View
+package com.dicoding.subtest.ui.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.subtest.R
-import com.dicoding.subtest.ui.adapter.FavoriteEventAdapter
-import com.dicoding.subtest.ui.ViewModel.FavoriteViewModel
-import com.dicoding.subtest.ui.ViewModel.FavoriteViewModelFactory
+import com.dicoding.subtest.adapter.FavoriteEventAdapter
 import com.dicoding.subtest.data.local.repository.FavoriteEventRepository
 import com.dicoding.subtest.data.local.room.FavoriteEventDatabase
+import com.dicoding.subtest.ui.viewModel.FavoriteViewModel
+import com.dicoding.subtest.ui.viewModel.FavoriteViewModelFactory
 
 class FavoriteEventsFragment : Fragment() {
 
@@ -37,12 +35,13 @@ class FavoriteEventsFragment : Fragment() {
         // Set up the ViewModel with the repository
         val database = FavoriteEventDatabase.getInstance(requireContext())
         val repository = FavoriteEventRepository(database.favoriteEventDao())
-        favoriteViewModel = FavoriteViewModelFactory(repository).create(FavoriteViewModel::class.java)
+        favoriteViewModel =
+            FavoriteViewModelFactory(repository).create(FavoriteViewModel::class.java)
 
         // Observe favorite events
-        favoriteViewModel.getAllFavoriteEvents().observe(viewLifecycleOwner, Observer { favoriteEvents ->
+        favoriteViewModel.getAllFavoriteEvents().observe(viewLifecycleOwner) { favoriteEvents ->
             favoriteEventAdapter.submitList(favoriteEvents)
-        })
+        }
 
         return view
     }

@@ -1,4 +1,4 @@
-package com.dicoding.subtest.ui.View
+package com.dicoding.subtest.ui.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dicoding.subtest.adapter.EventAdapter
 import com.dicoding.subtest.databinding.FragmentInactiveEventsBinding
-import com.dicoding.subtest.Adapter.EventAdapter
-import com.dicoding.subtest.ui.ViewModel.EventViewModel
+import com.dicoding.subtest.ui.viewModel.EventViewModel
 
 class InactiveEventsFragment : Fragment() {
 

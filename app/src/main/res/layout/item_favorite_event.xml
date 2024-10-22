@@ -5,6 +5,13 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <ImageView
+        android:id="@+id/eventImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:contentDescription="@string/event_image"
+        android:scaleType="centerCrop" />
+
     <TextView
         android:id="@+id/event_name"
         android:layout_width="wrap_content"
@@ -12,5 +19,19 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Add ImageView for mediaCover if needed -->
+    <TextView
+        android:id="@+id/eventDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:paddingTop="4dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/eventCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:textSize="12sp" />
 </LinearLayout>
