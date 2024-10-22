@@ -50,8 +50,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.room.common)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.androidx.ui.desktop)
     testImplementation(libs.junit)
@@ -77,9 +75,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android.v173)
     implementation (libs.androidx.datastore.preferences.v111)
-
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.room.runtime)
     ksp(libs.room.compiler)
 }
