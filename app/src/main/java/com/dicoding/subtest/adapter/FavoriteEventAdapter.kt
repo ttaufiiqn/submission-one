@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.dicoding.subtest.R
 import com.dicoding.subtest.data.local.entity.FavoriteEvent
 import com.dicoding.subtest.databinding.ItemFavoriteEventBinding
 
@@ -26,8 +28,15 @@ class FavoriteEventAdapter :
 
     inner class FavoriteEventViewHolder(private val binding: ItemFavoriteEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(favoriteEvent: FavoriteEvent) {
+            // Set the event name
             binding.eventName.text = favoriteEvent.name
+
+            // Load the event image using Glide
+            Glide.with(binding.root.context)
+                .load(favoriteEvent.mediaCover) // Use the mediaCover URL from FavoriteEvent
+                .into(binding.eventImage) // Ensure this matches the ID in your layout XML
         }
     }
 
