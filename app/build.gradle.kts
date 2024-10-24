@@ -65,27 +65,20 @@
         implementation(libs.androidx.navigation.fragment.ktx)
         implementation(libs.androidx.navigation.ui.ktx)
         implementation(libs.androidx.lifecycle.viewmodel.ktx)
-        implementation(libs.androidx.lifecycle.livedata.ktx)
         implementation(libs.androidx.fragment.ktx)
         implementation(libs.androidx.lifecycle.viewmodel.ktx)
         implementation(libs.androidx.lifecycle.livedata.ktx)
         implementation(libs.activity.ktx)
         implementation(libs.androidx.fragment.ktx)
         implementation(libs.kotlinx.coroutines.android)
-        implementation(libs.androidx.datastore.preferences)
         implementation(libs.androidx.lifecycle.viewmodel.ktx)
-        implementation(libs.androidx.lifecycle.livedata.ktx)
         implementation(libs.kotlinx.coroutines.core)
-        implementation(libs.kotlinx.coroutines.android.v173)
         implementation (libs.androidx.datastore.preferences.v111)
         implementation(libs.androidx.lifecycle.viewmodel.ktx)
-        implementation(libs.androidx.lifecycle.livedata.ktx)
         ksp(libs.room.compiler)
-
-        implementation (libs.androidx.navigation.fragment.ktx.v283) // Use the latest version
-        implementation (libs.androidx.navigation.ui.ktx.v283) // Use the latest version
         implementation (libs.kotlinx.coroutines.core)
-        implementation (libs.kotlinx.coroutines.android.v173)
         implementation (libs.androidx.appcompat)
+        implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
 
     }

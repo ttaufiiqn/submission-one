@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.subtest.data.local.repository.FavoriteEventRepository
 
 
+@Suppress("UNCHECKED_CAST")
 class FavoriteViewModelFactory(private val repository: FavoriteEventRepository) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

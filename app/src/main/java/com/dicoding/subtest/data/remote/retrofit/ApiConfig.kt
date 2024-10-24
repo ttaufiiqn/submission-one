@@ -1,8 +1,8 @@
 package com.dicoding.subtest.data.remote.retrofit
 
+import com.dicoding.subtest.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.dicoding.subtest.BuildConfig
 
 object ApiConfig {
     private const val BASE_URL = BuildConfig.BASE_URL

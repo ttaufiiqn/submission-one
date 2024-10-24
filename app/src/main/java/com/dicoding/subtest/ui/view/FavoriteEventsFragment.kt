@@ -32,13 +32,11 @@ class FavoriteEventsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = favoriteEventAdapter
 
-        // Set up the ViewModel with the repository
         val database = FavoriteEventDatabase.getInstance(requireContext())
         val repository = FavoriteEventRepository(database.favoriteEventDao())
         favoriteViewModel =
             FavoriteViewModelFactory(repository).create(FavoriteViewModel::class.java)
 
-        // Observe favorite events
         favoriteViewModel.getAllFavoriteEvents().observe(viewLifecycleOwner) { favoriteEvents ->
             favoriteEventAdapter.submitList(favoriteEvents)
         }

@@ -17,7 +17,8 @@ class FavoriteEventAdapter :
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteEventViewHolder {
-        val binding = ItemFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteEventViewHolder(binding)
     }
 
@@ -36,7 +37,6 @@ class FavoriteEventAdapter :
                 .load(favoriteEvent.mediaCover)
                 .into(binding.eventImage)
 
-            // Set the click listener to navigate to the detail page
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailEventActivity::class.java)
                 intent.putExtra("EVENT_ID", favoriteEvent.id)  // Pass the event ID
