@@ -84,5 +84,7 @@
 
         implementation (libs.androidx.navigation.fragment.ktx.v283) // Use the latest version
         implementation (libs.androidx.navigation.ui.ktx.v283) // Use the latest version
+        implementation (libs.kotlinx.coroutines.core)
+        implementation (libs.kotlinx.coroutines.android.v173)
 
     }

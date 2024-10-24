@@ -1,14 +1,15 @@
 package com.dicoding.subtest.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dicoding.subtest.R
 import com.dicoding.subtest.data.local.entity.FavoriteEvent
 import com.dicoding.subtest.databinding.ItemFavoriteEventBinding
+import com.dicoding.subtest.ui.view.DetailEventActivity
 
 class FavoriteEventAdapter :
     ListAdapter<FavoriteEvent, FavoriteEventAdapter.FavoriteEventViewHolder>(
@@ -16,8 +17,7 @@ class FavoriteEventAdapter :
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteEventViewHolder {
-        val binding =
-            ItemFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteEventViewHolder(binding)
     }
 
@@ -30,13 +30,18 @@ class FavoriteEventAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(favoriteEvent: FavoriteEvent) {
-            // Set the event name
             binding.eventName.text = favoriteEvent.name
 
-            // Load the event image using Glide
             Glide.with(binding.root.context)
-                .load(favoriteEvent.mediaCover) // Use the mediaCover URL from FavoriteEvent
-                .into(binding.eventImage) // Ensure this matches the ID in your layout XML
+                .load(favoriteEvent.mediaCover)
+                .into(binding.eventImage)
+
+            // Set the click listener to navigate to the detail page
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailEventActivity::class.java)
+                intent.putExtra("EVENT_ID", favoriteEvent.id)  // Pass the event ID
+                itemView.context.startActivity(intent)
+            }
         }
     }
 

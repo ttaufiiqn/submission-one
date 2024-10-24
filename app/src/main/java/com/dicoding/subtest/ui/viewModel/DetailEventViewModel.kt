@@ -10,6 +10,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailEventViewModel : ViewModel() {
+
     private val _event = MutableLiveData<DetailEventResponse?>()
     val event: LiveData<DetailEventResponse?> = _event
 
@@ -20,10 +21,6 @@ class DetailEventViewModel : ViewModel() {
     val error: LiveData<String?> = _error
 
     fun fetchEventDetails(id: String) {
-        if (_event.value != null) {
-            return
-        }
-
         _loading.value = true
         ApiConfig.getApiService().getDetailEvent(id)
             .enqueue(object : Callback<DetailEventResponse> {

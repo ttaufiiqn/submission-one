@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.subtest.R
 import com.dicoding.subtest.data.local.entity.FavoriteEvent
@@ -28,14 +28,8 @@ class DetailEventActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventBinding
     private lateinit var eventLink: String
-    private val viewModel: DetailEventViewModel by viewModels()
-
-    private val favoriteViewModel: FavoriteViewModel by viewModels {
-        val database = FavoriteEventDatabase.getInstance(application)
-        val favoriteEventDao = database.favoriteEventDao()
-        val favoriteRepository = FavoriteEventRepository(favoriteEventDao)
-        FavoriteViewModelFactory(favoriteRepository)
-    }
+    private lateinit var favoriteViewModel: FavoriteViewModel
+    private val detailEventViewModel: DetailEventViewModel by viewModels()
 
     private var isFavorite = false
     private lateinit var currentEvent: EventDetail
@@ -49,14 +43,23 @@ class DetailEventActivity : AppCompatActivity() {
         binding = ActivityDetailEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val database = FavoriteEventDatabase.getInstance(application)
+        val favoriteEventDao = database.favoriteEventDao()
+        val favoriteRepository = FavoriteEventRepository(favoriteEventDao)
+
+        favoriteViewModel = ViewModelProvider(
+            this,
+            FavoriteViewModelFactory(favoriteRepository)
+        )[FavoriteViewModel::class.java]
+
         val eventId = intent.getStringExtra("EVENT_ID")
         if (eventId != null) {
             Handler(Looper.getMainLooper()).postDelayed({
-                viewModel.fetchEventDetails(eventId)
+                detailEventViewModel.fetchEventDetails(eventId)
             }, DELAY_MILLIS)
         }
 
-        viewModel.event.observe(this) { eventResponse ->
+        detailEventViewModel.event.observe(this) { eventResponse ->
             val event = eventResponse?.event
             if (event != null) {
                 currentEvent = event
@@ -65,8 +68,7 @@ class DetailEventActivity : AppCompatActivity() {
                 // Check if the event is already a favorite
                 favoriteViewModel.isFavorite(currentEvent.id.toString())
                     .observe(this) { favoriteEvent ->
-                        isFavorite =
-                            favoriteEvent != null // Set isFavorite to true if favoriteEvent is not null
+                        isFavorite = favoriteEvent != null
                         binding.fabFavorite.setImageResource(
                             if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
                         )
@@ -74,11 +76,11 @@ class DetailEventActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.loading.observe(this) { isLoading ->
+        detailEventViewModel.loading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        viewModel.error.observe(this) { errorMessage ->
+        detailEventViewModel.error.observe(this) { errorMessage ->
             if (errorMessage != null) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
@@ -95,28 +97,25 @@ class DetailEventActivity : AppCompatActivity() {
 
         binding.fabFavorite.setOnClickListener {
             val fab = it as FloatingActionButton
-            Log.d("FAB Click", "Current isFavorite state: $isFavorite")
             if (!isFavorite) {
                 val favoriteEvent = FavoriteEvent(
                     id = currentEvent.id.toString(),
                     name = currentEvent.name,
                     mediaCover = currentEvent.mediaCover
                 )
-                favoriteViewModel.insert(favoriteEvent)  // Ensure this is a suspend function
+                favoriteViewModel.insert(favoriteEvent)
                 isFavorite = true
-                fab.setImageResource(R.drawable.ic_favorite) // Change icon to favorite
+                fab.setImageResource(R.drawable.ic_favorite)
                 Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
-                // Optionally navigate to favorites here if needed
-                // navigateToFavorites()
             } else {
                 val favoriteEventToDelete = FavoriteEvent(
                     id = currentEvent.id.toString(),
                     name = currentEvent.name,
                     mediaCover = currentEvent.mediaCover
                 )
-                favoriteViewModel.delete(favoriteEventToDelete) // Pass the FavoriteEvent object
+                favoriteViewModel.delete(favoriteEventToDelete)
                 isFavorite = false
-                fab.setImageResource(R.drawable.ic_favorite_border) // Change icon back
+                fab.setImageResource(R.drawable.ic_favorite_border)
                 Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show()
             }
         }
@@ -131,8 +130,7 @@ class DetailEventActivity : AppCompatActivity() {
             name.text = event.name
             summary.text = event.summary
 
-            description.text =
-                HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            description.text = HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
             description.movementMethod = LinkMovementMethod.getInstance()
 
             Glide.with(this@DetailEventActivity)
