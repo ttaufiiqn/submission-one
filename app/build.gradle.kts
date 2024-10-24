@@ -86,5 +86,6 @@
         implementation (libs.androidx.navigation.ui.ktx.v283) // Use the latest version
         implementation (libs.kotlinx.coroutines.core)
         implementation (libs.kotlinx.coroutines.android.v173)
+        implementation (libs.androidx.appcompat)
 
     }

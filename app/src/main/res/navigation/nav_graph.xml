@@ -27,4 +27,5 @@
         android:name="com.dicoding.subtest.ui.view.FavoriteEventsFragment"
         android:label="Favorite Events"
         tools:layout="@layout/fragment_favorite_events" />
+
 </navigation>
